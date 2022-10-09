@@ -2,6 +2,8 @@ package com.example.fish
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fish.adapter.Myadapter
@@ -78,6 +80,25 @@ class MainActivity : AppCompatActivity() {
         getUserdata()
 
     }
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+
+        menuInflater.inflate(R.menu.menu_item,menu)
+        val item = menu?.findItem(R.id.search_action)
+        val searchView = item?.actionView as SearchView
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                TODO("Not yet implemented")
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                TODO("Not yet implemented")
+            }
+
+        })
+
+        return super.onCreateOptionsMenu(menu)
+
+    }
 
     private fun getUserdata() {
 
@@ -86,6 +107,8 @@ class MainActivity : AppCompatActivity() {
             val Products = products(imageId[i],heading[i])
             newArrayList.add(Products)
         }
+
+        tempArrayList.addAll(newArrayList)
 
         newRecyclerView.adapter = Myadapter(newArrayList)
     }
