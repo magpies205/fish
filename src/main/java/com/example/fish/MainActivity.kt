@@ -7,6 +7,8 @@ import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fish.adapter.Myadapter
+import java.util.*
+import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity() {
 
@@ -91,7 +93,23 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                TODO("Not yet implemented")
+                tempArrayList.clear()
+                val searchText = newText!!.toLowerCase(Locale.getDefault())
+                if (searchText.isNotEmpty()) {
+                    newArrayList.forEach {
+                        if (it.heading.toLowerCase(Locale.getDefault()).contains(searchText)) {
+
+                            tempArrayList.add(it)
+                        }
+                    }
+                    newRecyclerView.adapter!!.notifyDataSetChanged()
+                }
+                else{
+                    tempArrayList.clear()
+                    tempArrayList.addAll(newArrayList)
+                    newRecyclerView.adapter!!.notifyDataSetChanged()
+                }
+                return false
             }
 
         })
@@ -110,6 +128,11 @@ class MainActivity : AppCompatActivity() {
 
         tempArrayList.addAll(newArrayList)
 
-        newRecyclerView.adapter = Myadapter(newArrayList)
+        newRecyclerView.adapter = Myadapter(tempArrayList)
+
+        val adapter = Myadapter(tempArrayList)
+
+
+
     }
 }
